@@ -7,10 +7,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-const (
-	statsdRequestKeyContextKey = "rover.statsd.requestKey"
-)
-
 type (
 	// Rover : Rover config
 	Rover struct {
@@ -51,7 +47,7 @@ func Tag(namespace, value string) string {
 }
 
 func defaultGetRequestKey(context echo.Context) string {
-	if requestKey := context.Get(statsdRequestKeyContextKey); requestKey != nil {
+	if requestKey := getRequestKeyFromContext(context); requestKey != nil {
 		return requestKey.(string)
 	}
 	return context.Request().URL.Path
