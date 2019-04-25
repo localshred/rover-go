@@ -15,9 +15,9 @@ request Path as the key).
 
 ```go
 import (
-	"github.com/DataDog/datadog-go/statsd"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+  "github.com/DataDog/datadog-go/statsd"
+  "github.com/labstack/echo"
+  "github.com/labstack/echo/middleware"
   "github.com/localshred/rover-go"
 )
 
@@ -43,9 +43,9 @@ really only useful in conjunction with the `SendTimingMetrics`.
 
 ```go
 import (
-	"github.com/DataDog/datadog-go/statsd"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+  "github.com/DataDog/datadog-go/statsd"
+  "github.com/labstack/echo"
+  "github.com/labstack/echo/middleware"
   "github.com/localshred/rover-go"
 )
 
