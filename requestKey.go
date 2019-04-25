@@ -8,8 +8,9 @@ const (
 	statsdRequestKeyContextKey = "rover.statsd.requestKey"
 )
 
-// RequestKeyMiddleware : An Echo middleware to add timing metrics around each Echo Request.
-func (rover *Rover) RequestKeyMiddleware(requestKey string) echo.MiddlewareFunc {
+// SetRequestKey : An Echo middleware to set the static requestKey on the echo
+// context for later retrieval by other middleware (see TimingMiddleware).
+func (rover *Rover) SetRequestKey(requestKey string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(context echo.Context) (err error) {
 			setRequestKeyOnContext(context, requestKey)
