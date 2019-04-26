@@ -65,7 +65,6 @@ func (rover *Rover) getTagsForRequest(context echo.Context) []string {
 	tags := []string{
 		Tag("http:host", request.Host),
 		Tag("http:method", request.Method),
-		Tag("http:remote-addr", request.RemoteAddr),
 	}
 	if rover.AddTagsForRequest != nil {
 		return append(tags, rover.AddTagsForRequest(context)...)
