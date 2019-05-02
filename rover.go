@@ -48,7 +48,9 @@ func Tag(namespace, value string) string {
 
 func defaultGetRequestPage(context echo.Context) string {
 	if requestPage := getRequestPageFromContext(context); requestPage != nil {
-		return requestPage.(string)
+		if requestPageString, ok := requestPage.(string); ok {
+			return requestPageString
+		}
 	}
 	return context.Request().URL.Path
 }
