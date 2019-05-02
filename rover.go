@@ -17,24 +17,24 @@ type (
 		// completed its work.
 		AddTagsForRequest func(context echo.Context) []string
 
-		// GetRequestKey is a callback that returns the request key to be appended to the statsd client's
+		// GetRequestPage is a callback that returns the request key to be appended to the statsd client's
 		// Namespace (if any). If this callback is not provided, the request key will be extracted from the
 		// echo context if available. Otherwise, a request key will be auto-generated based on the Request URI.
 		//
-		// The preferred way of specifying the request key is to use the config.RequestKeyMiddleware function
+		// The preferred way of specifying the request key is to use the config.RequestPageMiddleware function
 		// to statically set the rqeuest key on the echo context. See that function for more info.
 		//
-		// If the Namespace was "mycompany.myapp.prod" and GetRequestKey returns "get.list_users.timing", the full
+		// If the Namespace was "mycompany.myapp.prod" and GetRequestPage returns "get.list_users.timing", the full
 		// keyspace will be "mycompany.myapp.prod.get./users.timing".
-		GetRequestKey func(context echo.Context) string
+		GetRequestPage func(context echo.Context) string
 	}
 )
 
 // New : Creates a new rover configuration with the given statsd client and sensible defaults.
 func New(statsdClient *statsd.Client) *Rover {
 	return &Rover{
-		StatsdClient:  statsdClient,
-		GetRequestKey: defaultGetRequestKey,
+		StatsdClient:   statsdClient,
+		GetRequestPage: defaultGetRequestPage,
 	}
 }
 
@@ -46,18 +46,18 @@ func Tag(namespace, value string) string {
 	return fmt.Sprintf("%s:%s", namespace, value)
 }
 
-func defaultGetRequestKey(context echo.Context) string {
-	if requestKey := getRequestKeyFromContext(context); requestKey != nil {
-		return requestKey.(string)
+func defaultGetRequestPage(context echo.Context) string {
+	if requestPage := getRequestPageFromContext(context); requestPage != nil {
+		return requestPage.(string)
 	}
 	return context.Request().URL.Path
 }
 
-func (rover *Rover) generateRequestKey(context echo.Context) string {
-	if rover.GetRequestKey == nil {
-		panic(errors.New("GetRequestKey callback cannot be nil"))
+func (rover *Rover) generateRequestPage(context echo.Context) string {
+	if rover.GetRequestPage == nil {
+		panic(errors.New("GetRequestPage callback cannot be nil"))
 	}
-	return rover.GetRequestKey(context)
+	return rover.GetRequestPage(context)
 }
 
 func (rover *Rover) getTagsForRequest(context echo.Context) []string {
