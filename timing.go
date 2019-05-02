@@ -5,8 +5,15 @@ import (
 	"time"
 )
 
+type (
+	// TimingConfig : provides configuration to the timing middleware.
+	TimingConfig struct {
+		metricName string
+	}
+)
+
 // SendTimingMetrics : An Echo middleware to add timing metrics around each Echo Request.
-func (rover *Rover) SendTimingMetrics() echo.MiddlewareFunc {
+func (rover *Rover) SendTimingMetrics(config *TimingConfig) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(context echo.Context) (err error) {
 			requestStart := time.Now()
@@ -20,4 +27,11 @@ func (rover *Rover) SendTimingMetrics() echo.MiddlewareFunc {
 			return
 		}
 	}
+}
+
+func getMetricName(config *TimingConfig) string {
+	if config != nil && config.metricName != "" {
+		return config.metricName
+	}
+	return "request_time"
 }
