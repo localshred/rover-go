@@ -20,9 +20,13 @@ func (rover *Rover) SendTimingMetrics(config *TimingConfig) echo.MiddlewareFunc 
 			err = next(context)
 			duration := time.Since(requestStart)
 
-			requestKey := rover.generateRequestKey(context)
+			metricName := getMetricName(config)
+			requestPage := rover.generateRequestPage(context)
 			tags := rover.getTagsForRequest(context)
-			rover.StatsdClient.Timing(requestKey, duration, tags, 1)
+			tags = append([]string{
+				Tag("page", requestPage),
+			})
+			rover.StatsdClient.Timing(metricName, duration, tags, 1)
 
 			return
 		}
