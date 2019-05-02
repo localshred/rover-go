@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+const (
+	defaultMetricName = "request_timing"
+)
+
 type (
 	// TimingConfig : provides configuration to the timing middleware.
 	TimingConfig struct {
@@ -37,5 +41,5 @@ func getMetricName(config *TimingConfig) string {
 	if config != nil && config.metricName != "" {
 		return config.metricName
 	}
-	return "request_time"
+	return defaultMetricName
 }
