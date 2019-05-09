@@ -3,6 +3,8 @@
 Provides middleware and utilities for integrating DataDog statsd with the Echo
 HTTP library written for go servers.
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/localshred/rover-go)](https://goreportcard.com/report/github.com/localshred/rover-go)
+
 ### SendTimingMetrics
 
 The `SendTimingMetrics` is used for any and all routes that your server will serve.
